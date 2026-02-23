@@ -1,7 +1,4 @@
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.*;
 public class textAnalyser {
 
@@ -71,8 +68,21 @@ public class textAnalyser {
     }
 
 
-    public HashMap<String,Integer> freqWords(String s){
-
+    public List<String> freqWords(String s,int k){
+     PriorityQueue<Map.Entry<String,Integer>> minheap= new PriorityQueue<>((a,b)->Integer.compare(a.getValue(),b.getValue()));
+        HashMap<String,Integer> map=wordFrequency(s);
+     for(Map.Entry<String,Integer> entry: map.entrySet()){
+         minheap.offer(entry);
+         if(minheap.size()>k){
+           minheap.poll();
+         }
+        }
+     List<String> result= new ArrayList<>();
+     while(!minheap.isEmpty()){
+         result.add(minheap.poll().getKey());
+     }
+     Collections.reverse(result);
+ return result;
     }
 
 
